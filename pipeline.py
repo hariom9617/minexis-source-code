@@ -75,6 +75,8 @@ from perception.thermal_branch import (
 
     YoloThermalDetector,
 
+    BlobThermalDetector,
+
 )
 
 from perception.radar_branch import (
@@ -375,7 +377,7 @@ class Pipeline:
 
 
         # -------------------------------------------------------------------
-        # THERMAL YOLO DETECTOR
+        # THERMAL DETECTOR
         # -------------------------------------------------------------------
 
         print()
@@ -387,24 +389,52 @@ class Pipeline:
         )
 
 
-        print(
+        # Use BlobThermalDetector (simple brightness-based) for deployment
+        # since trained YOLO model is not included in repository.
+        # For production with real hardware, train a model and use YoloThermalDetector.
 
-            f"Thermal model: {THERMAL_MODEL_PATH}"
+        import os
 
-        )
+        use_yolo = os.path.exists(THERMAL_MODEL_PATH)
 
 
-        self._thermal_detector = (
+        if use_yolo:
 
-            YoloThermalDetector(
+            print(
 
-                weights_path=THERMAL_MODEL_PATH,
-
-                conf_threshold=THERMAL_CONFIDENCE_THRESHOLD,
+                f"Thermal model: {THERMAL_MODEL_PATH} (YOLO)"
 
             )
 
-        )
+            self._thermal_detector = (
+
+                YoloThermalDetector(
+
+                    weights_path=THERMAL_MODEL_PATH,
+
+                    conf_threshold=THERMAL_CONFIDENCE_THRESHOLD,
+
+                )
+
+            )
+
+        else:
+
+            print(
+
+                "Thermal model: BlobThermalDetector (brightness-based fallback)"
+
+            )
+
+            self._thermal_detector = (
+
+                BlobThermalDetector(
+
+                    confidence_threshold=THERMAL_CONFIDENCE_THRESHOLD,
+
+                )
+
+            )
 
 
         self._thermal_branch = (
