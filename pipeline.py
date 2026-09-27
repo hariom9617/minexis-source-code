@@ -430,7 +430,9 @@ class Pipeline:
 
                 BlobThermalDetector(
 
-                    confidence_threshold=THERMAL_CONFIDENCE_THRESHOLD,
+                    rel_threshold=0.6,  # Brightness threshold for blob detection
+
+                    min_blob_px=9,      # Minimum blob size in pixels
 
                 )
 
