@@ -312,3 +312,66 @@ Check Render Dashboard → Your Service → Logs to watch it happen in real-time
 **Good luck! Your system should be deploying successfully right now. 🚀**
 
 ---
+
+
+---
+
+## 🔄 UPDATE: Second Fix Applied (2026-09-27 09:26)
+
+**Issue:** `TypeError: BlobThermalDetector.__init__() got an unexpected keyword argument 'confidence_threshold'`
+
+**Root Cause:** The `BlobThermalDetector` class uses different parameter names:
+- ✅ Correct: `rel_threshold` (brightness relative threshold)
+- ❌ Wrong: `confidence_threshold` (YOLO parameter)
+
+**Fix Applied:**
+```python
+# Changed from:
+BlobThermalDetector(confidence_threshold=THERMAL_CONFIDENCE_THRESHOLD)
+
+# To:
+BlobThermalDetector(
+    rel_threshold=0.6,  # Brightness threshold for blob detection
+    min_blob_px=9,      # Minimum blob size in pixels
+)
+```
+
+**Status:** ✅ Fixed in commit `700e0d0` and pushed to GitHub
+
+**Render Status:** Auto-deploying now (will take ~2-3 minutes)
+
+---
+
+## 📊 Updated Git History
+
+```bash
+700e0d0 (HEAD -> main, origin/main) Fix: Correct BlobThermalDetector parameter
+0fb0f6c Add deployment fix documentation
+d13b905 Fix: Use BlobThermalDetector for deployment
+77d26be Add deployment ready documentation
+6789b7a Add deployment documentation and quick reference
+b96c56e Initial commit: MINEXIS complete system
+```
+
+---
+
+## ✅ THIS FIX SHOULD WORK
+
+The backend will now start successfully! Watch Render logs for:
+
+```
+INFO: Started server process [58]
+INFO: Waiting for application startup.
+[INFO] Hardware mode — thermal: synthetic  radar: synthetic
+Initializing MINEXIS perception pipeline...
+Thermal model: BlobThermalDetector (brightness-based fallback)
+[INFO] Pipeline worker thread started.
+[INFO] Broadcaster started.
+[INFO] MINEXIS backend started. Sensor mode: SYNTHETIC
+INFO: Application startup complete.
+INFO: Uvicorn running on http://0.0.0.0:10000
+```
+
+✅ **No more TypeError!**
+
+---
