@@ -1,0 +1,33 @@
+# MINEXIS hardware sensor dependencies
+#
+# These packages are NOT included in requirements.txt because they are
+# platform-specific (Linux/SBC only) or require physical hardware.
+# Install only on the target deployment hardware (Raspberry Pi, Jetson Nano, etc.)
+#
+#   pip install -r requirements-hardware.txt
+#
+# ----------------------------------------------------------------------------
+# Thermal camera — Melexis MLX90640 (32×24 I²C thermal array)
+# ----------------------------------------------------------------------------
+# Requires:
+#   - Linux with I²C enabled (raspi-config or /boot/config.txt i2c=on)
+#   - Physical MLX90640 connected to I²C bus
+#
+# NOTE: The exact package name for MLX90640 Python support is:
+#   adafruit-circuitpython-mlx90640
+# which depends on adafruit-blinka (hardware abstraction layer).
+# adafruit-blinka auto-detects the platform (RPi, Jetson, Beaglebone, etc.)
+# and WILL NOT work correctly on a Windows laptop.
+#
+adafruit-circuitpython-mlx90640>=3.2.0
+adafruit-blinka>=8.0.0
+
+# ----------------------------------------------------------------------------
+# Radar — Ai-Thinker RD-03D / RD-03D V2 (UART/serial)
+# ----------------------------------------------------------------------------
+# pyserial works on Windows, Linux, and macOS.
+# It is kept here (not in requirements.txt) because it is only needed when
+# mode.radar = "real".  Installing it in synthetic mode is harmless but
+# unnecessary.
+#
+pyserial>=3.5

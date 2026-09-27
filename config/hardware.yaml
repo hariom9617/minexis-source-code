@@ -1,0 +1,38 @@
+# MINEXIS hardware configuration
+#
+# Default: both sensors use synthetic data.
+# Set thermal/radar to "real" to activate hardware adapters.
+#
+# IMPORTANT — safety notice:
+# Never label synthetic data as real sensor measurements.
+# The mode setting here controls what the dashboard shows as
+# "SENSOR MODE: SIMULATION" vs "SENSOR MODE: REAL HARDWARE".
+
+mode:
+  # "synthetic" → SyntheticThermalSource / SyntheticRadarSource (default, always works)
+  # "real"      → RealThermalSource (MLX90640) / RealRadarSource (RD-03D)
+  thermal: synthetic
+  radar:   synthetic
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Real thermal camera settings (only used when mode.thermal = "real")
+# ─────────────────────────────────────────────────────────────────────────────
+thermal:
+  type:     mlx90640   # sensor model identifier, used by factory.py
+  bus:      1          # I²C bus number (Linux: /dev/i2c-1; not applicable on Windows)
+  address:  0x33       # I²C address (MLX90640 default)
+  width:    32         # sensor columns
+  height:   24         # sensor rows
+  rotation: 0          # degrees clockwise: 0 | 90 | 180 | 270
+  fps:      8          # frames per second supported by MLX90640: 1, 2, 4, 8, 16, 32, 64
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Real radar settings (only used when mode.radar = "real")
+# ─────────────────────────────────────────────────────────────────────────────
+radar:
+  type:     rd03d      # sensor model identifier, used by factory.py
+  port:     COM3       # serial port — change to match your system
+                       #   Windows: COM3, COM4, ...
+                       #   Linux:   /dev/ttyUSB0, /dev/ttyACM0, ...
+  baudrate: 256000     # RD-03D default UART baud rate
+  timeout:  1.0        # serial read timeout in seconds

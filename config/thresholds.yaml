@@ -1,0 +1,48 @@
+# MINEXIS pipeline thresholds
+#
+# These are PLACEHOLDER values for the prototype. Per the solution doc
+# (section 8): "Threshold values must be configured from vehicle braking
+# capability, speed, grade, load and mine safety rules. They should be
+# validated in controlled tests." Do not treat these as final.
+
+sync:
+  max_skew_s: 0.08          # max allowed thermal/radar timestamp difference
+  max_staleness_s: 0.5      # discard buffered data older than this
+
+radar:
+  snr_threshold_db: 10.0
+  doppler_static_thresh_mps: 0.4
+  cluster_eps_range_m: 2.5
+  cluster_eps_azimuth_deg: 4.0
+  min_cluster_points: 1
+
+thermal:
+  confidence_threshold: 0.3
+
+fusion:
+  azimuth_gate_deg: 8.0        # max azimuth diff to consider thermal/radar a match
+  conflict_azimuth_deg: 15.0   # beyond this -> classified as conflict, not partial
+
+tracking:
+  max_association_dist_m: 5.0
+  max_missed_frames: 5
+  min_hits_to_confirm: 2
+
+risk:
+  path_half_width_m: 3.0
+  ttc_critical_s: 3.0
+  ttc_warning_s: 6.0
+  ttc_caution_s: 10.0
+  dist_critical_m: 5.0
+  dist_warning_m: 12.0
+  dist_caution_m: 25.0
+  escalate_frames: 2
+  deescalate_frames: 4
+  # 100-METER TTC MONITORING ZONE
+  # TTC is only computed for objects within this distance. Objects farther
+  # than this will not generate any TTC-based collision warnings.
+  ttc_monitoring_distance_m: 100.0
+  # Minimum radial closing speed (m/s) required to treat an object as
+  # approaching. Objects at or below this threshold are considered stationary
+  # or receding; their TTC remains None/N/A.
+  min_closing_speed_mps: 0.1

@@ -1,0 +1,75 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/*.jsonl
+*.jsonl
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Frontend
+ui/dashboard/node_modules/
+ui/dashboard/dist/
+ui/dashboard/.env.local
+ui/dashboard/.env.development.local
+ui/dashboard/.env.test.local
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Training outputs
+runs/
+*.pt
+*.pth
+*.onnx
+
+# Data
+data/
+datasets/
+*.mp4
+*.avi
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Environment variables (sensitive)
+.env
